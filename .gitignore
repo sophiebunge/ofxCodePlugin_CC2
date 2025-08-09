@@ -78,3 +78,5 @@ ehthumbs.db
 # Package managers
 conan.lock
 vcpkg_installed/
+
+# Hiighly specific
