@@ -20,7 +20,6 @@ void TcpCommunicationManager::setup() {
 
 	// Setup the image TCP server on port 12000 to send frames to clients
 	tcpServerImages.setup(12000);
-	tcpServerImages.setMessageDelimiter("\n");
 
 	ofLogNotice("TcpCommunicationManager") << "TCP servers initialized - Messages: 11999, Images: 12000";
 }
@@ -52,14 +51,15 @@ void TcpCommunicationManager::sendFrame(const ofPixels & pixels) {
 	ofBuffer buffer;
 	ofSaveImage(pixels, buffer, OF_IMAGE_FORMAT_PNG);
 
-	// Get PNG image data as a string (encoded binary)
-	string encoded = buffer.getText();
+	// Get PNG image data as raw bytes (not as text)
+	const char * data = buffer.getData();
+	size_t dataSize = buffer.size();
 
 	// Loop over all connected clients on the image server
 	for (int i = 0; i <= tcpServerImages.getLastID(); i++) {
 		if (tcpServerImages.isClientConnected(i)) {
-			// Send the encoded PNG image to the client over TCP
-			tcpServerImages.send(i, encoded);
+			// Send the raw PNG bytes to the client over TCP
+			tcpServerImages.sendRawBytes(i, data, dataSize);
 		}
 	}
 }

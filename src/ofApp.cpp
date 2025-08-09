@@ -5,6 +5,15 @@ void ofApp::setup() {
 	// Set the window size for the openFrameworks app
 	ofSetWindowShape(400, 400);
 
+	// Load the image
+	bool imageLoaded = myImage.load("tama_working.png");
+	if (imageLoaded) {
+		ofLogNotice("ofApp") << "Image loaded successfully! Size: "
+							 << myImage.getWidth() << "x" << myImage.getHeight();
+	} else {
+		ofLogError("ofApp") << "Failed to load image: tama_working.png";
+	}
+
 	// Allocate the framebuffer object with width, height, and RGBA format
 	fbo.allocate(400, 400, GL_RGBA);
 
@@ -29,8 +38,11 @@ void ofApp::draw() {
 	// Set the background color of the FBO to the current background color from TCP manager
 	ofBackground(tcpManager.getBackgroundColor());
 
-	// Draw the text "Tamagotchi View" at position (20, 20) inside the FBO
-	ofDrawBitmapString("Tamagotchi View", 20, 20);
+	// Draw the image
+	if (myImage.isAllocated()) {
+		ofSetColor(255, 255, 255, 255); // Make sure image is drawn at full opacity
+		myImage.draw(0, 0, 400, 400);
+	}
 
 	// End drawing to the framebuffer object
 	fbo.end();
