@@ -1,8 +1,7 @@
 #pragma once
 
 #include "ofMain.h"
-#include "ofxNetwork.h"
-#include <map>
+#include "tcp.h"
 
 class ofApp : public ofBaseApp {
 public:
@@ -10,9 +9,7 @@ public:
 	void update();
 	void draw();
 
-	// void parseMessage(const std::string & msg);
-
-	ofxTCPServer tcpServer;
-	std::map<std::string, ofColor> colorMap;
-	ofColor bgColor = ofColor::black;
+private:
+	TcpCommunicationManager tcpManager; // Handles all TCP communication
+	ofFbo fbo; // Framebuffer object for offscreen rendering
 };

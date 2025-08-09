@@ -1,4 +1,4 @@
-obj/osx/Release/src/main.o: src/main.cpp \
+obj/osx/Release/src/main.o: src/main.cpp src/ofApp.h \
   ../../../libs/openFrameworks/ofMain.h \
   ../../../libs/openFrameworks/utils/ofConstants.h \
   ../../../libs/glew/include/GL/glew.h \
@@ -454,7 +454,7 @@ obj/osx/Release/src/main.o: src/main.cpp \
   ../../../libs/openFrameworks/video/ofVideoPlayer.h \
   ../../../libs/openFrameworks/3d/of3dUtils.h \
   ../../../libs/openFrameworks/3d/ofCamera.h \
-  ../../../libs/openFrameworks/3d/ofEasyCam.h src/ofApp.h \
+  ../../../libs/openFrameworks/3d/ofEasyCam.h src/tcp.h \
   ../../../addons/ofxNetwork/src/ofxNetwork.h \
   ../../../addons/ofxNetwork/src/ofxTCPClient.h \
   ../../../addons/ofxNetwork/src/ofxTCPManager.h \
@@ -462,6 +462,7 @@ obj/osx/Release/src/main.o: src/main.cpp \
   ../../../addons/ofxNetwork/src/ofxTCPServer.h \
   ../../../addons/ofxNetwork/src/ofxUDPManager.h \
   ../../../addons/ofxNetwork/src/ofxUDPSettings.h
+src/ofApp.h:
 ../../../libs/openFrameworks/ofMain.h:
 ../../../libs/openFrameworks/utils/ofConstants.h:
 ../../../libs/glew/include/GL/glew.h:
@@ -918,7 +919,7 @@ obj/osx/Release/src/main.o: src/main.cpp \
 ../../../libs/openFrameworks/3d/of3dUtils.h:
 ../../../libs/openFrameworks/3d/ofCamera.h:
 ../../../libs/openFrameworks/3d/ofEasyCam.h:
-src/ofApp.h:
+src/tcp.h:
 ../../../addons/ofxNetwork/src/ofxNetwork.h:
 ../../../addons/ofxNetwork/src/ofxTCPClient.h:
 ../../../addons/ofxNetwork/src/ofxTCPManager.h:

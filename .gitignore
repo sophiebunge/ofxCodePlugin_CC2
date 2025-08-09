@@ -79,4 +79,5 @@ ehthumbs.db
 conan.lock
 vcpkg_installed/
 
-# Hiighly specific
+# ignore the vs IDE file, so libraries can be imported correctly
+ofxCodePlugin_CC2.code-workspace

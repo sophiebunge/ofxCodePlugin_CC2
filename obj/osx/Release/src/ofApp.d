@@ -454,7 +454,7 @@ obj/osx/Release/src/ofApp.o: src/ofApp.cpp src/ofApp.h \
   ../../../libs/openFrameworks/video/ofVideoPlayer.h \
   ../../../libs/openFrameworks/3d/of3dUtils.h \
   ../../../libs/openFrameworks/3d/ofCamera.h \
-  ../../../libs/openFrameworks/3d/ofEasyCam.h \
+  ../../../libs/openFrameworks/3d/ofEasyCam.h src/tcp.h \
   ../../../addons/ofxNetwork/src/ofxNetwork.h \
   ../../../addons/ofxNetwork/src/ofxTCPClient.h \
   ../../../addons/ofxNetwork/src/ofxTCPManager.h \
@@ -919,6 +919,7 @@ src/ofApp.h:
 ../../../libs/openFrameworks/3d/of3dUtils.h:
 ../../../libs/openFrameworks/3d/ofCamera.h:
 ../../../libs/openFrameworks/3d/ofEasyCam.h:
+src/tcp.h:
 ../../../addons/ofxNetwork/src/ofxNetwork.h:
 ../../../addons/ofxNetwork/src/ofxTCPClient.h:
 ../../../addons/ofxNetwork/src/ofxTCPManager.h:
