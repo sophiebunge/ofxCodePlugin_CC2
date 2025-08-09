@@ -1,3 +1,80 @@
-.vscode/browse.db
-.vscode/browse.db
+# Build artifacts and compiled binaries
+bin/
+obj/
+*.app
+*.exe
+*.dll
+*.so
+*.dylib
+*.a
+*.lib
+
+# Object files
+*.o
+*.obj
+
+# Dependency files
+*.d
+
+# Debug files
+*.dSYM/
+*.su
+*.idb
+*.pdb
+
+# C++ specific
+*.gch
+*.pch
+*.cache
+
+# CMake
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+Makefile
+!Makefile
+build/
+Build/
+
+# openFrameworks specific
+# Keep the main Makefile but ignore generated ones
+!Project.xcconfig
+!config.make
+!addons.make
+
+# macOS specific
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# VS Code
+.vscode/
 browse.db
+browse.db-shm
+browse.db-wal
+*.code-workspace
+
+# Xcode
+*.xcodeproj/xcuserdata/
+*.xcodeproj/project.xcworkspace/xcuserdata/
+*.xcworkspace/xcuserdata/
+UserInterfaceState.xcuserstate
+project.xcworkspace
+DerivedData/
+*.xcarchive
+
+# Temporary files
+*.tmp
+*.temp
+*~
+
+# Logs
+*.log
+
+# OS generated files
+Thumbs.db
+ehthumbs.db
+
+# Package managers
+conan.lock
+vcpkg_installed/
