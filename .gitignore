@@ -1,5 +1,5 @@
 # Build artifacts and compiled binaries
-bin/
+# bin/
 obj/
 *.app
 *.exe
