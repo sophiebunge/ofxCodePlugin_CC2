@@ -7,6 +7,11 @@ void ofApp::setup() {
 
 	// Load the image
 	bool imageLoaded = myImage.load("tama_working.png");
+	tamaCoffeeImage.load("tama_idle.png");
+	tamaSleepImage.load("tama_tired.png");
+	tamaFireImage.load("tama_fire.png");
+	tamaSadImage.load("tama_sad.png");
+
 	if (imageLoaded) {
 		ofLogNotice("ofApp") << "Image loaded successfully! Size: "
 							 << myImage.getWidth() << "x" << myImage.getHeight();
@@ -32,6 +37,7 @@ void ofApp::draw() {
 	// Begin drawing to the offscreen framebuffer object
 	fbo.begin();
 
+
 	// Clear previous contents (fully opaque black)
 	ofClear(0, 0, 0, 255);
 
@@ -39,11 +45,34 @@ void ofApp::draw() {
 	ofBackground(tcpManager.getBackgroundColor());
 
 	// Draw the image
-	if (myImage.isAllocated()) {
-		ofSetColor(255, 255, 255, 255); // Make sure image is drawn at full opacity
-		myImage.draw(0, 0, 400, 400);
-	}
+	
 
+	    // Decide which image and text to show
+switch (tcpManager.currentState) {
+    case TamaState::Coffee:
+        tamaCoffeeImage.draw(0, 0, 400, 350);
+        tamaText = "Thanks for the coffee!";
+        break;
+    case TamaState::Sleeping:
+        tamaSleepImage.draw(0, 0, 400, 350);
+        tamaText = "Zzz... Tama is sleeping.";
+        break;
+    case TamaState::Fire:
+        tamaFireImage.draw(0, 0, 400, 350);
+        tamaText = "Help! I'm on fire!";
+        break;
+    case TamaState::Sad:
+        tamaSadImage.draw(0, 0, 400, 350);
+        tamaText = "Aw! Tama is sad.";
+        break;
+    case TamaState::Working:
+    default:
+        myImage.draw(0, 0, 400, 350);
+        tamaText = "Hello! I'm Tama, let's get to work!";
+        break;
+}
+	    ofSetColor(255); // Make sure text is white
+	 ofDrawBitmapString(tamaText, 100, 380);
 	// End drawing to the framebuffer object
 	fbo.end();
 

@@ -3,6 +3,15 @@
 #include "ofMain.h"
 #include "ofxNetwork.h"
 
+enum class TamaState {
+    Working,
+    Coffee,
+    Sleeping,
+    Fire,
+    Sad,
+};
+
+
 class TcpCommunicationManager {
 public:
 	// Constructor and destructor
@@ -23,6 +32,11 @@ public:
 
 	// Check if there are any connected clients for image streaming
 	bool hasImageClients();
+
+	// Coffee message set up
+
+TamaState currentState = TamaState::Working;
+
 
 private:
 	// TCP servers

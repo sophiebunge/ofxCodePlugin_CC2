@@ -12,5 +12,8 @@ public:
 private:
 	TcpCommunicationManager tcpManager; // Handles all TCP communication
 	ofFbo fbo; // Framebuffer object for offscreen rendering
-	ofImage myImage; // The Tamagotchi image
+
+
+	string tamaText = "Hello! I'm Tama, let's get to work!";
+	ofImage myImage, tamaCoffeeImage, tamaSleepImage, tamaFireImage, tamaSadImage;
 };

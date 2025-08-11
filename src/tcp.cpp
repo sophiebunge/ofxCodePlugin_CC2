@@ -90,6 +90,22 @@ void TcpCommunicationManager::processMessage(const string & message) {
 		string colorString = message.substr(6);
 		parseColorCommand(colorString);
 	}
+	   else if (message == "coffee") {
+        currentState = TamaState::Coffee;
+        ofLogNotice("TcpCommunicationManager") << "Tama got coffee!";
+    }
+    else if (message == "sleep") {
+        currentState = TamaState::Sleeping;
+        ofLogNotice("TcpCommunicationManager") << "Tama is sleeping!";
+    }
+    else if (message == "fire") {
+        currentState = TamaState::Fire;
+        ofLogNotice("TcpCommunicationManager") << "Tama is on fire!";
+    }
+    else if (message == "sad") {
+        currentState = TamaState::Sad;
+        ofLogNotice("TcpCommunicationManager") << "Tama is sad!";
+    }
 	// You can add more command types here in the future
 	// else if (message.find("command2:") == 0) { ... }
 }
