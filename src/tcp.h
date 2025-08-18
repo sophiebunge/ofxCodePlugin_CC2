@@ -36,6 +36,8 @@ public:
 	// Coffee message set up
 
 TamaState currentState = TamaState::Working;
+// Track if system is hot
+bool systemHot = false;
 
 
 private:

@@ -1,4 +1,24 @@
 #include "ofApp.h"
+#include <cstdlib>
+#include <iostream>
+#include <sstream>
+
+float getCpuTemperature() {
+    FILE* pipe = popen("osx-cpu-temp", "r");
+    if (!pipe) return 0.0;
+
+    char buffer[128];
+    std::string result = "";
+    while (fgets(buffer, sizeof buffer, pipe) != nullptr) {
+        result += buffer;
+    }
+    pclose(pipe);
+
+    float temp = 0.0f;
+    std::stringstream ss(result);
+    ss >> temp;
+    return temp;
+}
 
 //--------------------------------------------------------------
 void ofApp::setup() {
@@ -30,6 +50,8 @@ void ofApp::setup() {
 void ofApp::update() {
 	// Update the TCP communication manager to handle incoming messages
 	tcpManager.update();
+float temp = getCpuTemperature();
+    tcpManager.systemHot = (temp > 70.0); // set threshold you like
 }
 
 //--------------------------------------------------------------
@@ -44,11 +66,17 @@ void ofApp::draw() {
 	// Set the background color of the FBO to the current background color from TCP manager
 	ofBackground(tcpManager.getBackgroundColor());
 
-	// Draw the image
+	
+
+	TamaState stateToDraw = tcpManager.currentState;
+
+if (tcpManager.systemHot) {
+    stateToDraw = TamaState::Fire;  
+}
 	
 
 	    // Decide which image and text to show
-switch (tcpManager.currentState) {
+switch (stateToDraw) {
     case TamaState::Coffee:
         tamaCoffeeImage.draw(0, 0, 400, 350);
         tamaText = "Thanks for the coffee!";
