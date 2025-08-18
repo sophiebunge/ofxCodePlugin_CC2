@@ -89,23 +89,23 @@ void TcpCommunicationManager::processMessage(const string & message) {
 		// Extract the color value string after "color:"
 		string colorString = message.substr(6);
 		parseColorCommand(colorString);
+		// Handle user typing status
+
+	} else if (message == "User started typing - sent working status") {
+		currentState = TamaState::Working;
+	} else if (message == "coffee") {
+		currentState = TamaState::Coffee;
+		ofLogNotice("TcpCommunicationManager") << "Thanks for the coffee!";
+	} else if (message == "sleep") {
+		currentState = TamaState::Sleeping;
+		ofLogNotice("TcpCommunicationManager") << "Tama is sleeping!";
+	} else if (message == "fire") {
+		currentState = TamaState::Fire;
+		ofLogNotice("TcpCommunicationManager") << "Tama is on fire!";
+	} else if (message == "sad") {
+		currentState = TamaState::Sad;
+		ofLogNotice("TcpCommunicationManager") << "Tama is sad!";
 	}
-	   else if (message == "coffee") {
-        currentState = TamaState::Coffee;
-        ofLogNotice("TcpCommunicationManager") << "Tama got coffee!";
-    }
-    else if (message == "sleep") {
-        currentState = TamaState::Sleeping;
-        ofLogNotice("TcpCommunicationManager") << "Tama is sleeping!";
-    }
-    else if (message == "fire") {
-        currentState = TamaState::Fire;
-        ofLogNotice("TcpCommunicationManager") << "Tama is on fire!";
-    }
-    else if (message == "sad") {
-        currentState = TamaState::Sad;
-        ofLogNotice("TcpCommunicationManager") << "Tama is sad!";
-    }
 	// You can add more command types here in the future
 	// else if (message.find("command2:") == 0) { ... }
 }
@@ -134,4 +134,14 @@ void TcpCommunicationManager::parseColorCommand(const string & colorString) {
 	}
 
 	ofLogNotice("TcpCommunicationManager") << "Background color changed to: " << colorString;
+}
+
+void TcpCommunicationManager::handleUserStatus(const string & status) {
+	if (status == "working") {
+		currentState = TamaState::Working;
+		ofLogNotice("TcpCommunicationManager") << "User is actively coding!";
+	} else if (status == "idle") {
+		currentState = TamaState::Idle; // Assuming you add this state
+		ofLogNotice("TcpCommunicationManager") << "User went idle";
+	}
 }

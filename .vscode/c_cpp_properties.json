@@ -166,6 +166,8 @@
 			"${workspaceRoot}/src",
 			"${workspaceRoot}/../../../addons/ofxNetwork/src",
 			"${workspaceRoot}/src",
+			"${workspaceRoot}/../../../addons/ofxNetwork/src",
+			"${workspaceRoot}/src",
 			"${workspaceRoot}/../../../addons/ofxNetwork/src"
 		]
 	},

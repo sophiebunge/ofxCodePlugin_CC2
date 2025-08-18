@@ -4,20 +4,20 @@
 #include <sstream>
 
 float getCpuTemperature() {
-    FILE* pipe = popen("osx-cpu-temp", "r");
-    if (!pipe) return 0.0;
+	FILE * pipe = popen("osx-cpu-temp", "r");
+	if (!pipe) return 0.0;
 
-    char buffer[128];
-    std::string result = "";
-    while (fgets(buffer, sizeof buffer, pipe) != nullptr) {
-        result += buffer;
-    }
-    pclose(pipe);
+	char buffer[128];
+	std::string result = "";
+	while (fgets(buffer, sizeof buffer, pipe) != nullptr) {
+		result += buffer;
+	}
+	pclose(pipe);
 
-    float temp = 0.0f;
-    std::stringstream ss(result);
-    ss >> temp;
-    return temp;
+	float temp = 0.0f;
+	std::stringstream ss(result);
+	ss >> temp;
+	return temp;
 }
 
 //--------------------------------------------------------------
@@ -26,7 +26,7 @@ void ofApp::setup() {
 	ofSetWindowShape(400, 400);
 
 	// Load the image
-	bool imageLoaded = myImage.load("tama_working.png");
+	bool imageLoaded = myImage.load("tama_idle.png");
 	tamaCoffeeImage.load("tama_idle.png");
 	tamaSleepImage.load("tama_tired.png");
 	tamaFireImage.load("tama_fire.png");
@@ -50,8 +50,8 @@ void ofApp::setup() {
 void ofApp::update() {
 	// Update the TCP communication manager to handle incoming messages
 	tcpManager.update();
-float temp = getCpuTemperature();
-    tcpManager.systemHot = (temp > 70.0); // set threshold you like
+	float temp = getCpuTemperature();
+	tcpManager.systemHot = (temp > 70.0); // set threshold you like
 }
 
 //--------------------------------------------------------------
@@ -59,48 +59,48 @@ void ofApp::draw() {
 	// Begin drawing to the offscreen framebuffer object
 	fbo.begin();
 
-
 	// Clear previous contents (fully opaque black)
 	ofClear(0, 0, 0, 255);
 
 	// Set the background color of the FBO to the current background color from TCP manager
 	ofBackground(tcpManager.getBackgroundColor());
 
-	
-
 	TamaState stateToDraw = tcpManager.currentState;
 
-if (tcpManager.systemHot) {
-    stateToDraw = TamaState::Fire;  
-}
-	
+	if (tcpManager.systemHot) {
+		stateToDraw = TamaState::Fire;
+	}
 
-	    // Decide which image and text to show
-switch (stateToDraw) {
-    case TamaState::Coffee:
-        tamaCoffeeImage.draw(0, 0, 400, 350);
-        tamaText = "Thanks for the coffee!";
-        break;
-    case TamaState::Sleeping:
-        tamaSleepImage.draw(0, 0, 400, 350);
-        tamaText = "Zzz... Tama is sleeping.";
-        break;
-    case TamaState::Fire:
-        tamaFireImage.draw(0, 0, 400, 350);
-        tamaText = "Help! I'm on fire!";
-        break;
-    case TamaState::Sad:
-        tamaSadImage.draw(0, 0, 400, 350);
-        tamaText = "Aw! Tama is sad.";
-        break;
-    case TamaState::Working:
-    default:
-        myImage.draw(0, 0, 400, 350);
-        tamaText = "Hello! I'm Tama, let's get to work!";
-        break;
-}
-	    ofSetColor(255); // Make sure text is white
-	 ofDrawBitmapString(tamaText, 100, 380);
+	// Decide which image and text to show
+	switch (stateToDraw) {
+	case TamaState::Coffee:
+		tamaCoffeeImage.draw(0, 0, 400, 350);
+		tamaText = "Thanks for the coffee!";
+		break;
+	case TamaState::Sleeping:
+		tamaSleepImage.draw(0, 0, 400, 350);
+		tamaText = "Zzz... Tama is sleeping.";
+		break;
+	case TamaState::Fire:
+		tamaFireImage.draw(0, 0, 400, 350);
+		tamaText = "Help! I'm on fire!";
+		break;
+	case TamaState::Sad:
+		tamaSadImage.draw(0, 0, 400, 350);
+		tamaText = "Aw! Tama is sad.";
+		break;
+	case TamaState::Idle:
+		tamaCoffeeImage.draw(0, 0, 400, 350);
+		tamaText = "Waiting to start coding...";
+		break;
+	case TamaState::Working:
+	default:
+		myImage.draw(0, 0, 400, 350);
+		tamaText = "Hello! I'm Tama, let's get to work!";
+		break;
+	}
+	ofSetColor(255); // Make sure text is white
+	ofDrawBitmapString(tamaText, 100, 380);
 	// End drawing to the framebuffer object
 	fbo.end();
 

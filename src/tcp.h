@@ -4,13 +4,13 @@
 #include "ofxNetwork.h"
 
 enum class TamaState {
-    Working,
-    Coffee,
-    Sleeping,
-    Fire,
-    Sad,
+	Working,
+	Coffee,
+	Sleeping,
+	Fire,
+	Sad,
+	Idle
 };
-
 
 class TcpCommunicationManager {
 public:
@@ -35,10 +35,9 @@ public:
 
 	// Coffee message set up
 
-TamaState currentState = TamaState::Working;
-// Track if system is hot
-bool systemHot = false;
-
+	TamaState currentState = TamaState::Working;
+	// Track if system is hot
+	bool systemHot = false;
 
 private:
 	// TCP servers
@@ -53,4 +52,7 @@ private:
 
 	// Helper method to parse color commands
 	void parseColorCommand(const string & colorString);
+
+	// Handle user status if typing (Working/Idle)
+	void handleUserStatus(const string & status);
 };
