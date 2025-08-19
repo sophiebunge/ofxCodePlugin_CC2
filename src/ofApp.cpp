@@ -22,6 +22,9 @@ float getCpuTemperature() {
 
 //--------------------------------------------------------------
 void ofApp::setup() {
+
+	tapFont.load("rainyhearts.ttf", 10); // Font for the tipitap typing
+
 	// Set the window size for the openFrameworks app
 	ofSetWindowShape(400, 400);
 
@@ -53,6 +56,14 @@ void ofApp::update() {
 	tcpManager.update();
 	float temp = getCpuTemperature();
 	tcpManager.systemHot = (temp > 70.0); // set threshold you like
+
+	if (tcpManager.currentState == TamaState::Working) {
+		if (ofGetElapsedTimef() - tapTimer > tapInterval) {
+			tapTimer = ofGetElapsedTimef();
+			tapCount++;
+			if (tapCount > 3) tapCount = 0; // cycle through 0,1,2,3
+		}
+	}
 }
 
 //--------------------------------------------------------------
@@ -92,11 +103,17 @@ void ofApp::draw() {
 		break;
 	case TamaState::Idle:
 		tamaCoffeeImage.draw(0, 0, 400, 350);
-		tamaText = "Waiting to start coding...";
+		tamaText = "Hello! I'm Tama, let's get to work!";
 		break;
 	case TamaState::Working:
 		tamaWorkingImage.draw(0, 0, 400, 350);
-		tamaText = "Typing typing...";
+		tamaText = "Let's focus and get this done together!";
+		// Draw "tap" text as animation
+		ofSetColor(255);
+		if (tapCount >= 1) tapFont.drawString("tip", 170, 155); // first tap
+		if (tapCount == 2) tapFont.drawString("tap", 250, 200); // second tap
+		if (tapCount == 3) tapFont.drawString("tip", 200, 220);
+		ofSetColor(255); // reset color
 		break;
 	default:
 		myImage.draw(0, 0, 400, 350);
@@ -104,7 +121,12 @@ void ofApp::draw() {
 		break;
 	}
 	ofSetColor(255); // Make sure text is white
-	ofDrawBitmapString(tamaText, 100, 380);
+
+	// Draw text always from the center of window assuming 400px width stays
+	float textWidth = tamaText.length() * 8;
+	float centerX = (400 - textWidth) / 2;
+	ofDrawBitmapString(tamaText, centerX, 380);
+
 	// End drawing to the framebuffer object
 	fbo.end();
 
