@@ -91,8 +91,6 @@ void TcpCommunicationManager::processMessage(const string & message) {
 		parseColorCommand(colorString);
 		// Handle user typing status
 
-	} else if (message == "User started typing - sent working status") {
-		currentState = TamaState::Working;
 	} else if (message == "coffee") {
 		currentState = TamaState::Coffee;
 		ofLogNotice("TcpCommunicationManager") << "Thanks for the coffee!";
@@ -105,6 +103,10 @@ void TcpCommunicationManager::processMessage(const string & message) {
 	} else if (message == "sad") {
 		currentState = TamaState::Sad;
 		ofLogNotice("TcpCommunicationManager") << "Tama is sad!";
+	} else if (message == "User started typing - sent working status") {
+		currentState = TamaState::Working;
+	} else if (message == "User went idle - sent idle status") {
+		currentState = TamaState::Idle;
 	}
 	// You can add more command types here in the future
 	// else if (message.find("command2:") == 0) { ... }
@@ -136,12 +138,3 @@ void TcpCommunicationManager::parseColorCommand(const string & colorString) {
 	ofLogNotice("TcpCommunicationManager") << "Background color changed to: " << colorString;
 }
 
-void TcpCommunicationManager::handleUserStatus(const string & status) {
-	if (status == "working") {
-		currentState = TamaState::Working;
-		ofLogNotice("TcpCommunicationManager") << "User is actively coding!";
-	} else if (status == "idle") {
-		currentState = TamaState::Idle; // Assuming you add this state
-		ofLogNotice("TcpCommunicationManager") << "User went idle";
-	}
-}

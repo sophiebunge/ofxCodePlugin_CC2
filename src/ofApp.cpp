@@ -31,6 +31,7 @@ void ofApp::setup() {
 	tamaSleepImage.load("tama_tired.png");
 	tamaFireImage.load("tama_fire.png");
 	tamaSadImage.load("tama_sad.png");
+	tamaWorkingImage.load("tama_working.png");
 
 	if (imageLoaded) {
 		ofLogNotice("ofApp") << "Image loaded successfully! Size: "
@@ -94,6 +95,9 @@ void ofApp::draw() {
 		tamaText = "Waiting to start coding...";
 		break;
 	case TamaState::Working:
+		tamaWorkingImage.draw(0, 0, 400, 350);
+		tamaText = "Typing typing...";
+		break;
 	default:
 		myImage.draw(0, 0, 400, 350);
 		tamaText = "Hello! I'm Tama, let's get to work!";
