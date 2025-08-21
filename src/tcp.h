@@ -9,7 +9,8 @@ enum class TamaState {
 	Sleeping,
 	Fire,
 	Sad,
-	Idle
+	Idle, 
+	Timer
 };
 
 class TcpCommunicationManager {
@@ -36,6 +37,8 @@ public:
 	// Coffee message set up
 
 	TamaState currentState = TamaState::Idle;
+	uint64_t stateStartTime = 0; // when state was set, in ms
+int timerDuration = 20 * 60 * 1000; // 20 minutes in ms
 	// Track if system is hot
 	bool systemHot = false;
 

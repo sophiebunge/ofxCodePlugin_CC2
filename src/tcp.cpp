@@ -38,6 +38,8 @@ void TcpCommunicationManager::update() {
 			}
 		}
 	}
+
+
 }
 
 //--------------------------------------------------------------
@@ -107,7 +109,11 @@ void TcpCommunicationManager::processMessage(const string & message) {
 		currentState = TamaState::Working;
 	} else if (message == "User went idle - sent idle status") {
 		currentState = TamaState::Idle;
-	}
+	} else if (message == "timer") {
+    currentState = TamaState::Timer;
+    stateStartTime = ofGetElapsedTimeMillis();
+    ofLogNotice("TcpCommunicationManager") << "Let's work for 20 min!";
+}
 	// You can add more command types here in the future
 	// else if (message.find("command2:") == 0) { ... }
 }

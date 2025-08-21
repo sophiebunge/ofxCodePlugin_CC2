@@ -9,6 +9,8 @@ public:
 	void update();
 	void draw();
 
+	 int remainingTimeMillis = 0; 
+
 private:
 	TcpCommunicationManager tcpManager; // Handles all TCP communication
 	ofFbo fbo; // Framebuffer object for offscreen rendering

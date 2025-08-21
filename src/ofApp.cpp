@@ -2,6 +2,8 @@
 #include <cstdlib>
 #include <iostream>
 #include <sstream>
+#include <algorithm>
+
 
 float getCpuTemperature() {
 	FILE * pipe = popen("osx-cpu-temp", "r");
@@ -55,7 +57,7 @@ void ofApp::update() {
 	// Update the TCP communication manager to handle incoming messages
 	tcpManager.update();
 	float temp = getCpuTemperature();
-	tcpManager.systemHot = (temp > 70.0); // set threshold you like
+	tcpManager.systemHot = (temp > 80.0); // set threshold you like
 
 	if (tcpManager.currentState == TamaState::Working) {
 		if (ofGetElapsedTimef() - tapTimer > tapInterval) {
@@ -64,12 +66,26 @@ void ofApp::update() {
 			if (tapCount > 3) tapCount = 0; // cycle through 0,1,2,3
 		}
 	}
+
+		int remainingMillis = 0;
+if (tcpManager.currentState == TamaState::Timer) {
+    uint64_t now = ofGetElapsedTimeMillis();
+    int elapsed = now - tcpManager.stateStartTime;
+    remainingMillis = std::max(0, tcpManager.timerDuration - elapsed);
+
+    if (remainingMillis == 0) {
+        tcpManager.currentState = TamaState::Idle;
+        ofLogNotice("TcpCommunicationManager") << "Timer finished, going Idle.";
+    }
+}
+remainingTimeMillis = remainingMillis;
 }
 
 //--------------------------------------------------------------
 void ofApp::draw() {
 	// Begin drawing to the offscreen framebuffer object
 	fbo.begin();
+
 
 	// Clear previous contents (fully opaque black)
 	ofClear(0, 0, 0, 255);
@@ -115,6 +131,40 @@ void ofApp::draw() {
 		if (tapCount == 3) tapFont.drawString("tip", 200, 220);
 		ofSetColor(255); // reset color
 		break;
+	case TamaState::Timer: {
+    tamaWorkingImage.draw(0, 0, 400, 350);
+    tamaText = "Timer running: stay focused!";
+
+ 
+	    // Automatic tip-tap-tip animation
+    int phase = (ofGetElapsedTimeMillis() / 500) % 3; // 500ms per step
+    ofSetColor(255);
+    if (phase == 0) tapFont.drawString("tip", 170, 155);
+    else if (phase == 1) tapFont.drawString("tap", 250, 200);
+    else if (phase == 2) tapFont.drawString("tip", 200, 220);
+    ofSetColor(255);
+    // calculate minutes + seconds
+    int totalSeconds = remainingTimeMillis / 1000;
+    int minutes = totalSeconds / 60;
+    int seconds = totalSeconds % 60;
+
+    // format as MM:SS
+    char buffer[10];
+    sprintf(buffer, "%02d:%02d", minutes, seconds);
+
+    ofSetColor(255, 255, 0); // yellow text for visibility
+    ofDrawBitmapString(buffer, 180, 50); // position at top center
+    ofSetColor(255); // reset color
+    
+    // Draw a little clock overlay in top-right corner
+    ofSetColor(255);
+    ofDrawCircle(360, 40, 20); // clock background
+    ofSetColor(0);
+    ofDrawLine(360, 40, 360, 30); // clock hand up
+    ofDrawLine(360, 40, 370, 40); // clock hand right
+    ofSetColor(255); // reset
+    break;
+	}
 	default:
 		myImage.draw(0, 0, 400, 350);
 		tamaText = "Hello! I'm Tama, let's get to work!";
@@ -132,7 +182,7 @@ void ofApp::draw() {
 
 	// Draw the FBO content on the main window at (0,0)
 	fbo.draw(0, 0);
-
+	// gui.draw();
 	// Send the current frame to connected clients (only if there are clients)
 	if (tcpManager.hasImageClients()) {
 		// Read the pixels from the framebuffer into an ofPixels object
