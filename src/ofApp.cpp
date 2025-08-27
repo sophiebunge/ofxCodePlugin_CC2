@@ -28,7 +28,7 @@ void ofApp::setup() {
 	tapFont.load("rainyhearts.ttf", 10); // Font for the tipitap typing
 
 	// Set the window size for the openFrameworks app
-	ofSetWindowShape(400, 400);
+	// ofSetWindowShape(400, 400);
 
 	// Load the image
 	bool imageLoaded = myImage.load("tama_idle.png");
